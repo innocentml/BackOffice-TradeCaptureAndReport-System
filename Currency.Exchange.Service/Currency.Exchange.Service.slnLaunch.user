@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Currency.Exchange.Service\\Currency.Exchange.Service.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Trade.Ingestion.API\\Trade.Ingestion.API.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
