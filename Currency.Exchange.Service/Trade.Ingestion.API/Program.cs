@@ -1,23 +1,31 @@
 using ServiceReference1;
+using System.Text.Json;
+using Trade.Ingestion.API.Models;
+using Trade.Ingestion.API.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
+builder.Services.Configure<DatabaseOptions>(builder.Configuration);
+builder.Services.AddScoped<DConnection>();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+    });
+builder.Services.AddTransient<IDConnection, DConnection>();
+builder.Services.AddTransient<ITradeDataDB, TradeDataDB>();
 builder.Services.AddScoped<ICurrencyExchangeService>(provider =>
 {
     return new CurrencyExchangeServiceClient(
         CurrencyExchangeServiceClient.EndpointConfiguration.BasicHttpBinding_ICurrencyExchangeService,
-        "https://localhost:7251/Service.asmx" // Your SOAP Service URL
+        "https://localhost:7251/Service.asmx" 
     );
 });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -25,9 +33,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
