@@ -9,4 +9,4 @@ ReadMe for DB
 6. Enter your connection string in appsettings
 7. Run DATABASE presets as the are numbered in DatabaseScripts folder
 8. Import the postman collection in PostmanCollection folder
-		
+9. Video link: https://www.loom.com/share/f0d413ec3af74971b9f11945383c17bb
